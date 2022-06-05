@@ -1,76 +1,40 @@
-// { Driver Code Starts
 #include<bits/stdc++.h>
+
 using namespace std;
 
- // } Driver Code Ends
-class Solution {
-public:
-	vector<vector<int>>searchWord(vector<vector<char>>grid, string word){
-	    // Code here
-	    int n=grid.size(),m=grid[0].size(),len=word.length(); //grid rows// grid columns//string length
-	    int di[]={0,1,1,1,0,-1,-1,-1};
-	    int dj[]={1,1,0,-1,-1,-1,0,1};
-	    int pos=1,flag=0,anspos=0;
-	    vector<vector<int>> ans;
-	    for(int i=0;i<m;i++)
-	    {
-	        for(int j=0;j<n;j++)
-	        {
-	          
-	            if(word[0]==grid[i][j])
-	            {
-	                for(int k=0;k<8;k++)
-	                {
-	                     for(int p=1;p<len;p++)
-	                     {
-	                             if(word[p]!=grid[i+di[k]][j+dj[k]])
-	                             {
-	                                 flag=1;
-	                                 break;
-	                             }
-	                     }
-	                     if(flag==0)
-	                     {
-	                         ans[anspos].push_back(i);
-	                         ans[anspos++].push_back(j);
-	                         break;
-	                     }
-	                     
-	                }
-	                flag=0;
-	            }
-	        }
-	    }
-	    
-	    return ans;
-	}
-};
+long long gcd(long long int a, long long int b)
+{
+  if (b == 0)
+    return a;
+  return gcd(b, a % b);
+}
+ 
+// Function to return LCM of two numbers
+long long lcm(int a, int b)
+{
+    return (a / gcd(a, b)) * b;
+}
+  
 
-// { Driver Code Starts.
-int main(){
-	int tc;
-	cin >> tc;
-	while(tc--){
-		int n, m;
-		cin >> n >> m;
-		vector<vector<char>>grid(n, vector<char>(m,'x'));
-		for(int i = 0; i < n; i++){
-			for(int j = 0; j < m; j++)
-				cin >> grid[i][j];
-		}
-		string word;
-		cin >> word;
-		Solution obj;
-		vector<vector<int>>ans = obj.searchWord(grid, word);
-		for(auto i: ans){
-			for(auto j: i)
-				cout << j << " ";
-			cout << "\n";
-		}
-		if(ans.size() == 0)
+int main()
+{
+	//cout<<lcm(1,3)<<endl<<gcd(1,3);
+	
+	int t;
+	cin>>t;
+	int n,maxi;
+	while(t--)
+	{
+		cin>>n;
+		maxi=lcm(1,n-1)-gcd(1,n-1);
+		for(int i=1;i<=n/2;i++)
 		{
-		    cout<<"-1\n";
+			if(maxi<lcm(i,n-i)-gcd(i,n-i))
+			maxi=lcm(i,n-i)-gcd(i,n-i);
 		}
+		cout<<maxi<<endl;
+
 	}
+	
 	return 0;
-}  // } Driver Code Ends
+}
